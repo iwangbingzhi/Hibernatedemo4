@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entity.Customer" table="Customer">
+        <id name="cid" column="cid">
+            <generator class="native">
+            </generator>
+        </id>
+
+        <property name="custName" column="custName"/>
+        <property name="custLevel" column="custLevel"/>
+        <property name="custSource" column="custSource"/>
+        <property name="custPhone" column="custPhone"/>
+        <property name="custMobile" column="custMobile"/>
+
+        <!--客户的映射文件中表示所有的联系人-->
+        <!--使用Set标签表示所有联系人 set标签里面有name属性，
+        属性值写在客户实体类里面表示联系人的set集合-->
+        <!--级联保存简化写法需要加上这行代码  cascade="save-update"-->
+        <!--级联删除需要添加这行代码  cascade="delete"-->
+<!--        放弃双向维护外键的代码inverse="true" 避免在修改的时候 进行两次修改  提升性能-->
+        <set name="setLinkMan" cascade="save-update,delete" inverse="true">
+            <!--column属性值是外键的名称-->
+            <key column="clid">
+            </key>
+            <one-to-many class="entity.LinkMan"/>
+        </set>
+    </class>
+</hibernate-mapping>

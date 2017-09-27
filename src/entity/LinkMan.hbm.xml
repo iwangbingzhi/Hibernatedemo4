@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--    name属性：实体类全路径  table属性：数据可表名称-->
+    <class name="entity.LinkMan" table="LinkMan">
+        <id name="lkm_id" column="lkm_id">
+            <!--配置数据库表id增长策略-->
+            <generator class="native"/>
+
+        </id>
+        <property name="lkm_name" column="lkm_name"/>
+        <property name="lkm_gender" column="lkm_gender"/>
+        <property name="lkm_phone" column="lkm_phone"/>
+
+        <many-to-one name="customer" class="entity.Customer" column="clid"/>
+    </class>
+</hibernate-mapping>
