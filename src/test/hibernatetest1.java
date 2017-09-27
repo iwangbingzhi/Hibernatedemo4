@@ -14,11 +14,68 @@ import java.util.Set;
 /**
  * Created by 王炳智 on 2017/9/27.
  */
-
+//hql中的语句的使用
 public class hibernatetest1 {
     public static void main(String[] args) {
-        sortDemo2();
+        jujidemo();
     }
+
+    //聚集函数
+    public static void jujidemo(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select count(*) from Customer");
+
+            //query中有方法，直接返回对象的形式  返回的值不能直接变成int类型，要先把object转换成Long,再变成int
+
+            Object object = query.uniqueResult();
+
+            Long l = (Long) object;
+            int count = l.intValue();
+            System.out.println(count);
+
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+
+    //投影查询（查询部分字段的值）
+    public static void sortDemo3(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select custName from Customer");
+
+            List<Object>list = query.list();
+            for (Object object: list) {
+                System.out.println(object);
+            }
+
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+
+
     //分页查询
     public static void sortDemo2(){
         SessionFactory sessionFactory = null;
@@ -126,6 +183,7 @@ public class hibernatetest1 {
             sessionFactory.close();
         }
     }
+
     //HQL查询 条件查询用户
     public static void reserchDemo3(){
         SessionFactory sessionFactory = null;
@@ -160,6 +218,7 @@ public class hibernatetest1 {
             sessionFactory.close();
         }
     }
+
     //HQL查询 模糊查询用户
     public static void reserchDemo4(){
         SessionFactory sessionFactory = null;
