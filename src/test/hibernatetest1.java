@@ -15,10 +15,64 @@ import java.util.Set;
  * Created by 王炳智 on 2017/9/27.
  */
 
-
 public class hibernatetest1 {
     public static void main(String[] args) {
-        reserchDemo4();
+        sortDemo2();
+    }
+    //分页查询
+    public static void sortDemo2(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            //1.查询所有的数据
+            Query query = session.createQuery("from Customer");
+            //2.设置分页数据
+            //2.1设置开始位置
+            query.setFirstResult(0);
+            //2.2设置每页记录数
+            query.setMaxResults(4);
+
+            //3.调用方法得到结果
+            List<Customer>list = query.list();
+            for (Customer customer: list) {
+                System.out.println(customer.getCid()+":"+customer.getCustName());
+            }
+
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+    //排序查询
+    public static void sortDemo(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery("from Customer order by cid asc");
+            List<Customer>list = query.list();
+            for (Customer customer: list) {
+                System.out.println(customer.getCid()+":"+customer.getCustName());
+            }
+
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
     }
 
 
