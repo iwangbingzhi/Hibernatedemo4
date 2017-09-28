@@ -11,11 +11,9 @@ import utils.HibernateUtils;
  * Created by 王炳智 on 2017/9/23.
  */
 
-
-
 public class OnetoMany {
     public static void main(String[] args) {
-        testAdd2();
+        testadddemo();
     }
 
     //一对多的修改操作
@@ -160,6 +158,28 @@ public class OnetoMany {
             //设置了级联保存 下面这行代码可以不用了
             //session.save(linkMan);
 
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+    public static void testadddemo(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            LinkMan linkMan = new LinkMan();
+            linkMan.setLkm_name("马化腾");
+            linkMan.setLkm_phone("339");
+            linkMan.setLkm_gender("女");
+            session.save(linkMan);
             transaction.commit();
         }catch (Exception e){
             transaction.rollback();
