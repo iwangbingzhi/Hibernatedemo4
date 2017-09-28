@@ -21,7 +21,7 @@
         <!--级联保存简化写法需要加上这行代码  cascade="save-update"-->
         <!--级联删除需要添加这行代码  cascade="delete"-->
 <!--        放弃双向维护外键的代码inverse="true" 避免在修改的时候 进行两次修改  提升性能-->
-        <set name="setLinkMan" cascade="save-update,delete" inverse="true">
+        <set name="setLinkMan" cascade="save-update,delete" inverse="true" batch-size="10">
             <!--column属性值是外键的名称-->
             <key column="clid">
             </key>
